@@ -5,14 +5,20 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"github.com/sashabaranov/go-openai"
 	"io"
 	"os"
+	"runtime"
+
+	"github.com/Xuanwo/go-locale"
+	"github.com/sashabaranov/go-openai"
 )
 
 func printResultWithGptCompletion(text string) error {
 	AGptCli := openai.NewClientWithConfig(newClient())
-	text = "简单解释这句命令行的作用: " + text
+	prefix := constants.QuestionPrefix
+	tag, _ := locale.Detect()
+
+	text = fmt.Sprintf(prefix, runtime.GOOS, tag.String(), text)
 	message := make([]openai.ChatCompletionMessage, 0)
 	message = append(message, openai.ChatCompletionMessage{
 		Role:    openai.ChatMessageRoleUser,
