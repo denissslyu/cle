@@ -18,7 +18,13 @@ func main() {
 	}
 	printResultWithGptCompletion(argStr)
 
-	cmd := exec.Command(os.Args[1], os.Args[2:]...)
-	out, _ := cmd.CombinedOutput()
-	fmt.Println("\nCombined out:\n", strings.TrimSpace(string(out)))
+	fmt.Printf("\nenter y to continue, or exit: ")
+	var input string
+	fmt.Scanln(&input)
+	if input == "y" {
+		cmd := exec.Command(os.Args[1], os.Args[2:]...)
+		out, _ := cmd.CombinedOutput()
+		fmt.Println(strings.TrimSpace(string(out)))
+	}
+	fmt.Println("over")
 }
